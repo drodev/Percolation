@@ -17,9 +17,21 @@
  *
  ****************************************************************************/
 import java.awt.Font;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class PercolationVisualizer {
+	
+	 // assume Unicode UTF-8 encoding
+    private static final String CHARSET_NAME = "UTF-8";
 
+    // assume language = English, country = US for consistency with System.out.
+    private static final Locale LOCALE = Locale.US;
     // delay in miliseconds (controls animation speed)
     private static final int DELAY = 100;
 
@@ -58,10 +70,15 @@ public class PercolationVisualizer {
 
     }
 
-    public static void main(String[] args) {
-        In in = new In(args[0]);      // input file
+    public static void main(String[] args) throws IOException {
+    	System.out.println("Type the txt file (for example: input3.txt)");
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String file  = br.readLine();
+		
+		
+        In in = new In(file);      // input file
         int N = in.readInt();         // N-by-N percolation system
-
+    	
         // turn on animation mode
         StdDraw.show(0);
 
@@ -69,12 +86,15 @@ public class PercolationVisualizer {
         Percolation perc = new Percolation(N);
         draw(perc, N);
         StdDraw.show(DELAY);
+        int time=DELAY;
         while (!in.isEmpty()) {
             int i = in.readInt();
             int j = in.readInt();
             perc.open(i-1, j-1);
             draw(perc, N);
             StdDraw.show(DELAY);
+            time+=DELAY;
         }
+        System.out.println("Time needed for complete drawing is: " + time/1000+ " secs");
     }
 }
