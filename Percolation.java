@@ -25,6 +25,7 @@ public class Percolation {
 	public boolean isFull(int row, int col){
 		beenThere[row][col]=false;
 		if (recurs(row, col)) {
+			 StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE);
 			board[row][col]=2; //mark 2 the blue square
 			return true;
 		}
@@ -47,12 +48,11 @@ public class Percolation {
 		if (recurs(row,col+1)) return true;
 		if (recurs(row,col-1)) return true;
 		return (recurs(row+1,col));
-					
 		}
 	
 	
 	public boolean percolates(){
-		for (int i=0; i<N-1;i++){
+		for (int i=0; i<=N-1;i++){
 			if(board[N-1][i]==2) return true; //if one block from the last row is blue return true
 		}
 		return false;
